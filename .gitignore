@@ -1,0 +1,60 @@
+# Node modules
+node_modules/
+**/node_modules/
+
+# Environment variables (SENSITIVE)
+.env
+.env.local
+.env.*.local
+**/.env
+**/.env.production
+
+# Databases
+*.db
+*.sqlite
+
+# Build outputs
+dist/
+dist-ssr/
+*.mjs
+*.map
+build/
+bin/
+obj/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+crash_report.log
+be_out.txt
+be_err.txt
+server_log.txt
+server_out.log
+server_err.log
+startup_debug.log
+tmp_be_out.log
+tmp_be_err.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sln
+*.user
+*.suo
+
+# Local uploads (if not using Cloudinary)
+aothunxuxu-node-api/uploads/*
+!aothunxuxu-node-api/uploads/.gitkeep
+
+# Other
+.DS_Store
+.npm
+.eslintcache
