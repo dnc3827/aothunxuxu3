@@ -1,20 +1,11 @@
 {
     "version": 2,
-    "functions": {
-        "src/server.js": {
-            "includeFiles": [
-                "node_modules/pg/**"
-            ]
-        }
-    },
     "builds": [
         {
             "src": "src/server.js",
             "use": "@vercel/node",
             "config": {
-                "includeFiles": [
-                    "node_modules/pg/**"
-                ]
+                "includeFiles": "node_modules/pg/**"
             }
         }
     ],
