@@ -5,11 +5,17 @@ const pg = require('pg');
 
 dotenv.config();
 
-const isPostgres = process.env.NODE_ENV === 'production' && process.env.DATABASE_URL;
+const hasDatabaseUrl = typeof process.env.DATABASE_URL === 'string' && process.env.DATABASE_URL.trim().length > 0;
+const isVercelRuntime = Boolean(process.env.VERCEL);
+const isPostgres = hasDatabaseUrl;
 
 console.log(`[DB] Environment: ${process.env.NODE_ENV}`);
 console.log(`[DB] Using ${isPostgres ? 'PostgreSQL' : 'SQLite'}`);
 console.log('[DB] Runtime patch: pg dialect module enabled');
+
+if (!hasDatabaseUrl && isVercelRuntime) {
+    throw new Error('[DB] DATABASE_URL is required on Vercel. Set it in Project Settings -> Environment Variables.');
+}
 
 const sequelize = isPostgres
     ? new Sequelize(process.env.DATABASE_URL, {
