@@ -49,12 +49,15 @@ app.get('/', (req, res) => {
     });
 });
 
-const fs = require('fs');
 const logError = (type, err) => {
     const message = `[${new Date().toISOString()}] ${type}: ${err.message}\n${err.stack}\n---\n`;
-    try {
-        fs.appendFileSync(path.join(__dirname, '..', 'crash_report.log'), message);
-    } catch (e) { }
+    // Không ghi file trong môi trường production/Vercel (ReadOnly Filesystem)
+    if (process.env.NODE_ENV !== 'production' && !process.env.VERCEL) {
+        try {
+            const fs = require('fs');
+            fs.appendFileSync(path.join(__dirname, '..', 'crash_report.log'), message);
+        } catch (e) { }
+    }
     console.error(message);
 };
 
