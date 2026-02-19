@@ -9,6 +9,7 @@ const isPostgres = process.env.NODE_ENV === 'production' && process.env.DATABASE
 
 console.log(`[DB] Environment: ${process.env.NODE_ENV}`);
 console.log(`[DB] Using ${isPostgres ? 'PostgreSQL' : 'SQLite'}`);
+console.log('[DB] Runtime patch: pg dialect module enabled');
 
 const sequelize = isPostgres
     ? new Sequelize(process.env.DATABASE_URL, {
