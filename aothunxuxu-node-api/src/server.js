@@ -81,18 +81,24 @@ const startServer = async () => {
         const shouldAlterSchema = process.env.DB_SYNC_ALTER === 'true';
         await sequelize.sync(shouldAlterSchema ? { alter: true } : undefined);
 
-        app.listen(PORT, () => {
-            console.log('===============================================');
-            console.log(`Server is LIVE on port ${PORT}`);
-            console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
-            console.log(`Allowed origins: ${allowedOrigins.join(', ')}`);
-            console.log(`DB sync alter mode: ${shouldAlterSchema}`);
-            console.log('===============================================');
-        });
+        if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+            app.listen(PORT, () => {
+                console.log('===============================================');
+                console.log(`Server is LIVE on port ${PORT}`);
+                console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+                console.log(`Allowed origins: ${allowedOrigins.join(', ')}`);
+                console.log(`DB sync alter mode: ${shouldAlterSchema}`);
+                console.log('===============================================');
+            });
+        }
     } catch (error) {
         logError('STARTUP ERROR', error);
-        process.exit(1);
+        if (process.env.NODE_ENV !== 'production') {
+            process.exit(1);
+        }
     }
 };
 
 startServer();
+
+module.exports = app;
