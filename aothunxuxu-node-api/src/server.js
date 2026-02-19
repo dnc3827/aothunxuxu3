@@ -10,6 +10,7 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const isVercelRuntime = Boolean(process.env.VERCEL);
 const allowedOrigins = (process.env.CORS_ORIGIN || 'http://localhost:5173')
     .split(',')
     .map((origin) => origin.trim())
@@ -63,12 +64,16 @@ const logError = (type, err) => {
 
 process.on('unhandledRejection', (err) => {
     logError('UNHANDLED REJECTION', err);
-    process.exit(1);
+    if (!isVercelRuntime) {
+        process.exit(1);
+    }
 });
 
 process.on('uncaughtException', (err) => {
     logError('UNCAUGHT EXCEPTION', err);
-    process.exit(1);
+    if (!isVercelRuntime) {
+        process.exit(1);
+    }
 });
 
 app.use('/api/auth', require('./routes/auth'));
@@ -84,7 +89,7 @@ const startServer = async () => {
         const shouldAlterSchema = process.env.DB_SYNC_ALTER === 'true';
         await sequelize.sync(shouldAlterSchema ? { alter: true } : undefined);
 
-        if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+        if (!isVercelRuntime) {
             app.listen(PORT, () => {
                 console.log('===============================================');
                 console.log(`Server is LIVE on port ${PORT}`);
@@ -96,7 +101,7 @@ const startServer = async () => {
         }
     } catch (error) {
         logError('STARTUP ERROR', error);
-        if (process.env.NODE_ENV !== 'production') {
+        if (!isVercelRuntime && process.env.NODE_ENV !== 'production') {
             process.exit(1);
         }
     }
