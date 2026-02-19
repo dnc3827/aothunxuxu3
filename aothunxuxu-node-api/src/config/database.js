@@ -1,6 +1,7 @@
 const { Sequelize } = require('sequelize');
 const dotenv = require('dotenv');
 const path = require('path');
+const pg = require('pg');
 
 dotenv.config();
 
@@ -13,6 +14,8 @@ const sequelize = isPostgres
     ? new Sequelize(process.env.DATABASE_URL, {
         dialect: 'postgres',
         protocol: 'postgres',
+        // Force static dependency so Vercel bundles pg for serverless runtime.
+        dialectModule: pg,
         dialectOptions: {
             ssl: {
                 require: true,
