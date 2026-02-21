@@ -1,8 +1,15 @@
 import axios from 'axios';
 
+const normalizeBaseUrl = (value) => {
+    if (!value) return '';
+    const trimmed = String(value).trim();
+    const withProtocol = /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`;
+    return withProtocol.replace(/\/+$/, '');
+};
+
 // Support both variable names to avoid config drift between environments.
 const rawBaseUrl = import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE_URL || '';
-const baseURL = rawBaseUrl ? rawBaseUrl.replace(/\/+$/, '') : '';
+const baseURL = normalizeBaseUrl(rawBaseUrl);
 
 const apiClient = axios.create({
     baseURL,
