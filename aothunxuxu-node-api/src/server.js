@@ -83,6 +83,19 @@ app.use('/api/images', require('./routes/images'));
 const startServer = async () => {
     try {
         console.log('Starting server...');
+
+        if (isVercelRuntime) {
+            const requiredEnvKeys = ['DATABASE_URL', 'JWT_SECRET', 'JWT_EXPIRE'];
+            const missingEnvKeys = requiredEnvKeys.filter((key) => {
+                const value = process.env[key];
+                return typeof value !== 'string' || value.trim().length === 0;
+            });
+
+            if (missingEnvKeys.length > 0) {
+                throw new Error(`[CONFIG] Missing required env vars: ${missingEnvKeys.join(', ')}`);
+            }
+        }
+
         await sequelize.authenticate();
         console.log('Database connected.');
 
