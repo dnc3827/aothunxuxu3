@@ -1,7 +1,7 @@
 :root {
   --default-font: "Roboto", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --heading-font: "Nunito", sans-serif;
-  --nav-font: "Inter", sans-serif;
+  --heading-font: var(--default-font);
+  --nav-font: var(--default-font);
   --accent-color: #388da8;
   --heading-color: #3d4348;
   --default-color: #444444;
@@ -16,7 +16,12 @@ a {
   text-decoration: none;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--heading-font);
   color: var(--heading-color);
 }

@@ -142,7 +142,7 @@ const handleRegister = async () => {
 }
 
 .brand-title {
-  font-family: 'Inter', sans-serif;
+  font-family: var(--heading-font);
   font-size: 3rem;
   font-weight: 800;
   letter-spacing: -0.02em;
@@ -222,7 +222,7 @@ const handleRegister = async () => {
   border-radius: 12px;
   border: 1px solid hsl(215, 20%, 90%);
   background: white;
-  font-family: 'Inter', sans-serif;
+  font-family: var(--default-font);
   transition: all 0.3s;
   outline: none;
 }

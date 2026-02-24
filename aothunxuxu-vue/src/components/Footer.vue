@@ -82,7 +82,7 @@ const socialLinks = [
 
 .phone-number {
   color: red;
-  font-family: 'Arial Black', sans-serif;
+  font-family: var(--heading-font);
   border-top: 2px solid #6c6c6c;
   border-bottom: 2px solid #6c6c6c;
   padding: 5px 10px;

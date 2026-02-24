@@ -44,7 +44,7 @@ exports.getProductById = async (req, res) => {
 // @access  Public
 exports.searchProducts = async (req, res) => {
     try {
-        const search = req.query.search || req.query.searchTerm || '';
+        const search = (req.query.search || req.query.searchTerm || '').trim().replace(/\s+/g, ' ');
         const category = req.query.category || '';
         const sortByParam = req.query.sortBy || 'id';
         const isDescending = req.query.isDescending === 'true';
@@ -54,7 +54,11 @@ exports.searchProducts = async (req, res) => {
         const where = {};
         if (category) where.category = category;
         if (search) {
-            where.name = { [Op.like]: `%${search}%` };
+            // Case-insensitive search (iLike for PostgreSQL)
+            where[Op.or] = [
+                { name: { [Op.iLike]: `%${search}%` } },
+                { description: { [Op.iLike]: `%${search}%` } }
+            ];
         }
 
         // Map frontend sort options to database columns
